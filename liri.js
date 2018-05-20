@@ -45,13 +45,13 @@ function twit() {
 
 
 // SPOTIFY NPM 
-var spotify = new Spotify({
-  id: Skeys.id,
-  secret: Skeys.secret
-});
 
 function music () {
-    spotify.search({ type: 'track', query: "Ain't My Fault" }, function(err, data) {
+    var spotify = new Spotify({
+        id: Skeys.id,
+        secret: Skeys.secret
+      });
+    spotify.search({ type: 'track', query: thing }, function(err, data) {
     if (err) {
         return console.log('Error occurred: ' + err);
     }
@@ -66,7 +66,35 @@ function music () {
     });
 }
 
+
 function movie() {
-    var queryUrl = "http://www.omdbapi.com/?t=" + thing + "&y=&plot=short&apikey=trilogy";
-    console.log(queryUrl)
+    var queryUrl = "http://www.omdbapi.com/?t=" + thing + "&y=&plot=short&apikey=trilogy"
+
+    request(queryUrl, function(error, response, body) {
+
+        if (!error && response.statusCode === 200) {
+            movie = JSON.parse(body)
+            console.log("Title: " + movie.Title)
+            console.log("Year: " + movie.Year)
+            console.log("IMDB Rating: " +movie.imdbRating)
+            console.log(movie.Ratings[1].Source + " Rating " + movie.Ratings[1].Value)
+            console.log("Country: " + movie.Country)
+            console.log("Language: " + movie.Language)
+            console.log("Plot: " + movie.Plot)
+            console.log("Actors: " + movie.Actors)
+        }
+    });
+      
+    
+}
+
+
+if (doWhat === "movie" || doWhat === "Movie") {
+    movie()
+}
+else if (doWhat === "twitter" || doWhat ==="Twiter"){
+    twit()
+}
+else if (doWhat === "music" || doWhat === "Music") {
+    music()
 }
