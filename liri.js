@@ -33,29 +33,39 @@ var client = new Twitter({
 function twit() {
     var params = {screen_name: 'ThisCoder'};
     client.get('statuses/user_timeline', params, function(error, tweets, response) {
-    if (!error) {
-        console.log(tweets);
-    }
-    else {
-        console.log(error)
-    }
-
+        if (!error) {
+            for (var i = 0; i < tweets.length; i++) {
+                console.log(tweets[i].created_at);
+                console.log(tweets[i].text);
+            }
+        }
+        else {
+            console.log(error)
+        }
     });
 }
 
 
 // SPOTIFY NPM 
+var getArtist = function(artist) {
+    return artist.name;
+  };
 
 function music () {
     var spotify = new Spotify({
         id: Skeys.id,
         secret: Skeys.secret
-      });
+    });
     spotify.search({ type: 'track', query: thing }, function(err, data) {
     if (err) {
         return console.log('Error occurred: ' + err);
     }
-    console.log(data)
+    var song = data.tracks.items
+    for (i= 0; i < song.length; i++) {
+        console.log("artist(s): " + song[i].artists.map(getArtist));
+        console.log("song name: " + song[i].name);
+        console.log("preview song: " + song[i].preview_url);
+        console.log("album: " + song[i].album.name);    }
     });
 
     //request npm
@@ -89,12 +99,15 @@ function movie() {
 }
 
 
-if (doWhat === "movie" || doWhat === "Movie") {
-    movie()
-}
-else if (doWhat === "twitter" || doWhat ==="Twiter"){
+if (doWhat === "my-tweets") {
     twit()
 }
-else if (doWhat === "music" || doWhat === "Music") {
+else if (doWhat === "movie-this"){
+    movie()
+}
+else if (doWhat === "spotify-this") {
     music()
+}
+else {
+    console.log("Try Again")
 }
