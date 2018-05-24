@@ -23,12 +23,7 @@ var Skeys = keys.spotify
 //     }
 // })
 //twitter npm
-var client = new Twitter({
-  consumer_key: 'Tkeys.consumer_keys',
-  consumer_secret: 'Tkeys.consumer_secret',
-  access_token_key: 'Tkeys.access_token_key',
-  access_token_secret: 'Tkeys.access_token_secret'
-});
+var client = new Twitter(Tkeys);
 
 function twit() {
     var params = {screen_name: 'ThisCoder'};
